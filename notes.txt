@@ -1,0 +1,8 @@
+reminder
+
+to update the requirements.txt use
+
+pip freeze > requirements.txt
+
+to install the req ups pip install -r requirements.txt
+

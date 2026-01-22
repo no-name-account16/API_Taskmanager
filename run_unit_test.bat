@@ -1,3 +1,5 @@
+@echo off
+cd backend
 pytest test_main.py --cov=. --cov-report=html --cov-report=term
 
 

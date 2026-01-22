@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="home.css">
+    <title>Task Manager - Home</title>
+
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Task Manager</h1>
+        <p class="subtitle">Organize your life, one task at a time</p>
+
+        <div class="user-info" id="userInfo" style="display: none;">
+            <h2>Welcome back, <span id="username"></span>!</h2>
+            <p>Email: <span id="userEmail"></span></p>
+        </div>
+
+        <div class="button-container" id="buttonContainer">
+            <a href="tasks.html" class="btn btn-primary">View My Tasks</a>
+            <a href="login.html" class="btn btn-secondary" id="loginBtn">Login / Register</a>
+            <button class="btn btn-logout" id="logoutBtn" style="display: none;">Logout</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h3>Easy to Use</h3>
+                <p>Create and manage tasks with a simple, intuitive interface</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+
+        async function checkAuth() {
+            const token = localStorage.getItem('access_token');
+
+            if (!token) {
+                document.getElementById('loginBtn').style.display = 'inline-block';
+                document.getElementById('logoutBtn').style.display = 'none';
+                return;
+            }
+
+            try {
+                document.getElementById('loading').style.display = 'block';
+
+                const response = await fetch(`${API_URL}/users/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    document.getElementById('username').textContent = user.username;
+                    document.getElementById('userEmail').textContent = user.email;
+                    document.getElementById('userInfo').style.display = 'block';
+                    document.getElementById('loginBtn').style.display = 'none';
+                    document.getElementById('logoutBtn').style.display = 'inline-block';
+                } else {
+                    localStorage.removeItem('access_token');
+                    document.getElementById('loginBtn').style.display = 'inline-block';
+                    document.getElementById('logoutBtn').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                localStorage.removeItem('access_token');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('access_token');
+            window.location.reload();
+        });
+
+        checkAuth();
+    </script>
+</body>
+</html>
