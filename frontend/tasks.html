@@ -177,68 +177,148 @@
             `).join('');
         }
 
-        document.getElementById('taskForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const token = checkAuth();
-            if (!token) return;
+<!--     &lt;!&ndash;   document.getElementById('taskForm').addEventListener('submit', async (e) => {-->
+<!--            e.preventDefault();-->
+<!--            const token = checkAuth();-->
+<!--            if (!token) return;-->
 
-            const formData = {
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value || null,
-                status: document.getElementById('status').value,
-                due_date: new Date(document.getElementById('dueDate').value).toISOString()
-            };
+<!--            const formData = {-->
+<!--                title: document.getElementById('title').value,-->
+<!--                description: document.getElementById('description').value || null,-->
+<!--                status: document.getElementById('status').value,-->
+<!--                due_date: new Date(document.getElementById('dueDate').value).toISOString()-->
+<!--            };-->
 
-            try {
-                const response = await fetch(`${API_URL}/tasks`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(formData)
-                });
+<!--            try {-->
+<!--                const response = await fetch(`${API_URL}/tasks`, {-->
+<!--                    method: 'POST',-->
+<!--                    headers: {-->
+<!--                        'Content-Type': 'application/json',-->
+<!--                        'Authorization': `Bearer ${token}`-->
+<!--                    },-->
+<!--                    body: JSON.stringify(formData)-->
+<!--                });-->
 
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        localStorage.removeItem('access_token');
-                        window.location.href = 'login.html';
-                        return;
-                    }
-                    throw new Error('Failed to create task');
-                }
+<!--                if (!response.ok) {-->
+<!--                    if (response.status === 401) {-->
+<!--                        localStorage.removeItem('access_token');-->
+<!--                        window.location.href = 'login.html';-->
+<!--                        return;-->
+<!--                    }-->
+<!--                    throw new Error('Failed to create task');-->
+<!--                }-->
 
-                showMessage('Task created successfully!');
-                document.getElementById('taskForm').reset();
-                loadTasks();
-            } catch (error) {
-                showMessage(`Error creating task: ${error.message}`, 'error');
-            }
+<!--                showMessage('Task created successfully!');-->
+<!--                document.getElementById('taskForm').reset();-->
+<!--                loadTasks();-->
+<!--            } catch (error) {-->
+<!--                showMessage(`Error creating task: ${error.message}`, 'error');-->
+<!--            }-->
+<!--        });-->
+
+<!--        async function updateTaskStatus(taskId, newStatus) {-->
+<!--            if (!newStatus) return;-->
+<!--            const token = checkAuth();-->
+<!--            if (!token) return;-->
+
+<!--            try {-->
+<!--                const response = await fetch(`${API_URL}/tasks/${taskId}/status`, {-->
+<!--                    method: 'PATCH',-->
+<!--                    headers: {-->
+<!--                        'Content-Type': 'application/json',-->
+<!--                        'Authorization': `Bearer ${token}`-->
+<!--                    },-->
+<!--                    body: JSON.stringify({ status: newStatus })-->
+<!--                });-->
+
+<!--                if (!response.ok) throw new Error('Failed to update task');-->
+
+<!--                showMessage('Task status updated!');-->
+<!--                loadTasks();-->
+<!--            } catch (error) {-->
+<!--                showMessage(`Error updating task: ${error.message}`, 'error');-->
+<!--            }-->
+<!--        }&ndash;&gt;-->
+
+// Add this code to your tasks.html in the <script> section
+
+// Set minimum date to today when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const dueDateInput = document.getElementById('dueDate');
+    const now = new Date();
+
+    // Format: YYYY-MM-DDTHH:MM (datetime-local format)
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    dueDateInput.min = minDateTime;
+});
+
+// Update the taskForm submit event listener to include validation
+document.getElementById('taskForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = checkAuth();
+    if (!token) return;
+
+    // Get the due date value
+    const dueDateValue = document.getElementById('dueDate').value;
+    const selectedDate = new Date(dueDateValue);
+    const now = new Date();
+
+    // Validate due date is not in the past
+    if (selectedDate < now) {
+        showMessage('Due date cannot be in the past!', 'error');
+        return;
+    }
+
+    const formData = {
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value || null,
+        status: document.getElementById('status').value,
+        due_date: selectedDate.toISOString()
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/tasks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
         });
 
-        async function updateTaskStatus(taskId, newStatus) {
-            if (!newStatus) return;
-            const token = checkAuth();
-            if (!token) return;
-
-            try {
-                const response = await fetch(`${API_URL}/tasks/${taskId}/status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-
-                if (!response.ok) throw new Error('Failed to update task');
-
-                showMessage('Task status updated!');
-                loadTasks();
-            } catch (error) {
-                showMessage(`Error updating task: ${error.message}`, 'error');
+        if (!response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem('access_token');
+                window.location.href = 'login.html';
+                return;
             }
+            throw new Error('Failed to create task');
         }
+
+        showMessage('Task created successfully!');
+        document.getElementById('taskForm').reset();
+
+        // Reset the min date after form reset
+        const dueDateInput = document.getElementById('dueDate');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        dueDateInput.min = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        loadTasks();
+    } catch (error) {
+        showMessage(`Error creating task: ${error.message}`, 'error');
+    }
+});
 
         async function deleteTask(taskId) {
             if (!confirm('Are you sure you want to delete this task?')) return;

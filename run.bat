@@ -12,7 +12,7 @@ timeout /t 3 /nobreak > nul
 echo.
 echo Opening Application in Browser...
 cd ..
-start chrome "file:///%CD%/frontend/home.html"
+echo start chrome "http://localhost:63342/API_Taskmanager/frontend/home.html"
 echo.
 echo ========================================
 echo Application Started!

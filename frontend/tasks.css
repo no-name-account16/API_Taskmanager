@@ -56,62 +56,34 @@ body {
     color: white;
 }
 
-/* MAIN GRID */
-.main-container {
+/* MAIN GRID - Form Left, Tasks Right */
+.container {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 180px;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    grid-template-areas:
+        "header header"
+        "message message"
+        "form tasks";
 }
 
-/* TASK LIST */
-.tasks-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
+.page-header {
+    grid-area: header;
 }
 
-.task-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.task-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.task-description {
-    margin: 10px 0;
-    color: #555;
-}
-
-.task-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: bold;
-}
-
-.status-pending {
-    background: #fff3cd;
+#message {
+    grid-area: message;
 }
 
 /* FORM */
-.form-section {
+.task-form {
+    grid-area: form;
     position: sticky;
     top: 20px;
-}
-
-.task-form {
     background: white;
     padding: 25px;
     border-radius: 10px;
+    height: fit-content;
 }
 
 .form-group {
@@ -143,4 +115,88 @@ textarea {
     padding: 12px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* TASK LIST */
+.tasks-container {
+    grid-area: tasks;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.task-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.task-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.task-description {
+    margin: 10px 0;
+    color: #555;
+}
+
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #fff3cd;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.task-actions select {
+    flex: 1;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: white;
+}
+
+.message {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.message.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
 }

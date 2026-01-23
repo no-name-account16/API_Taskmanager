@@ -37,13 +37,14 @@ app.add_middleware(
 SECRET_KEY = "no need to add a key - only a test app"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
+# Security
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 # Database dependency
 def get_db():
+    # Database session
     db = SessionLocal()
     try:
         yield db
