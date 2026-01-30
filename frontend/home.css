@@ -1,5 +1,5 @@
    <style>
-        * {
+         {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -8,7 +8,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #c0c0c0c0;
-            min-height: 100vh;
+            min-height: 10vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,8 +17,8 @@
 
         .container {
             text-align: center;
-            color: white;
-            max-width: 800px;
+            color: black;
+            max-width: 500px;
         }
 
         h1 {

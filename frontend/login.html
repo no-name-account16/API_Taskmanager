@@ -28,6 +28,9 @@
             <div class="toggle-form">
                 Don't have an account? <a href="#" onclick="toggleForms(); return false;">Register</a>
             </div>
+            <div class="form-group">
+                <a href="home.html" class="nav-link">Home</a>
+            </div>
         </form>
 
         <!-- Register Form -->
@@ -49,16 +52,25 @@
             <div class="toggle-form">
                 Already have an account? <a href="#" onclick="toggleForms(); return false;">Login</a>
             </div>
+            <div class="form-group">
+                <a href="home.html" class="nav-link">Home</a>
+            </div>
         </form>
     </div>
     <script>
+
+ //Base URL  for API endpoint
     const API_URL = 'http://localhost:8000';
+
+// Toggle between login and register forms - also hides the displayed messages
 
         function toggleForms() {
             document.getElementById('loginForm').classList.toggle('hidden');
             document.getElementById('registerForm').classList.toggle('hidden');
             hideMessage();
         }
+
+// Display a message
 
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
@@ -76,28 +88,33 @@
             e.preventDefault();
             hideMessage();
 
+        // Get values
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
-
+        // create an object to send data
             const formData = new FormData();
             formData.append('username', username);
             formData.append('password', password);
 
+        // send a POST request to the login endpoint
             try {
                 const response = await fetch(`${API_URL}/login`, {
                     method: 'POST',
                     body: formData
                 });
-
+        // Parse the JSON response
                 const data = await response.json();
 
                 if (response.ok) {
+                // store the access token
                     localStorage.setItem('access_token', data.access_token);
                     showMessage('Login successful! Redirecting...', 'success');
+                    // redirect the page after 1 second
                     setTimeout(() => {
                         window.location.href = 'tasks.html';
                     }, 1000);
                 } else {
+                // display login has failed
                     showMessage(data.detail || 'Login failed', 'error');
                 }
             } catch (error) {
@@ -109,12 +126,13 @@
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             hideMessage();
-
+        // get values
             const username = document.getElementById('register-username').value;
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
 
             try {
+            // send POST request to register endpoint with json payload
                 const response = await fetch(`${API_URL}/register`, {
                     method: 'POST',
                     headers: {
@@ -122,11 +140,13 @@
                     },
                     body: JSON.stringify({ username, email, password })
                 });
-
+            // Parse response
                 const data = await response.json();
 
                 if (response.ok) {
+                // Success registration message
                     showMessage('Registration successful! Please login.', 'success');
+                    // switch to login form after 1.5 sec's
                     setTimeout(() => {
                         toggleForms();
                         document.getElementById('login-username').value = username;

@@ -7,7 +7,7 @@ A RESTful API for managing tasks with user authentication built with FastAPI.
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.10+
 - pip
 - SQLite (included with Python)
 
@@ -27,6 +27,7 @@ Once the server is running, you can access:
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 - **OpenAPI Schema**: http://localhost:8000/openapi.json
+- **Document In PDF format is in directory
 
 ## 📚 API Endpoints
 
@@ -47,8 +48,8 @@ Create a new user account.
 **Request Body:**
 ```json
 {
-  "username": "john_doe",
-  "password": "secure_password123"
+  "username": "john_smith",
+  "password": "password123"
 }
 ```
 
@@ -56,7 +57,7 @@ Create a new user account.
 ```json
 {
   "id": 1,
-  "username": "john_doe",
+  "username": "john_smith",
   "created_at": "2024-01-23T10:30:00"
 }
 ```
@@ -73,8 +74,8 @@ Authenticate and receive an access token.
 
 **Request Body (Form Data):**
 ```
-username: john_doe
-password: secure_password123
+username: john_smith
+password: password123
 ```
 
 **Response (200 OK):**
@@ -110,7 +111,7 @@ Authorization: Bearer <your_access_token>
 ```json
 {
   "id": 1,
-  "username": "john_doe",
+  "username": "john_smith",
   "created_at": "2024-01-23T10:30:00"
 }
 ```
@@ -303,11 +304,9 @@ Authorization: Bearer <your_access_token>
 - `404 Not Found`: Task not found or doesn't belong to user
 - `401 Unauthorized`: Invalid or missing token
 
-⚠️ **Warning:** This action is permanent and cannot be undone.
-
 ---
 
-## 🔒 Authentication Flow
+##  Authentication Flow
 
 1. **Register** a new user account (`POST /register`)
 2. **Login** to receive an access token (`POST /token`)
@@ -337,7 +336,7 @@ curl -X GET http://localhost:8000/tasks \
 
 ---
 
-## 📊 Status Codes
+##  Status Codes
 
 | Code | Description |
 |------|-------------|
@@ -352,7 +351,7 @@ curl -X GET http://localhost:8000/tasks \
 
 ---
 
-## 🧪 Testing with cURL
+##  Testing with cURL
 
 ### Register and Login
 ```bash
@@ -362,10 +361,10 @@ curl -X POST http://localhost:8000/register \
   -d '{"username":"testuser","password":"testpass123"}'
 
 # Login
+
 curl -X POST http://localhost:8000/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "username=testuser&password=testpass123"
-
+  -d "username=testuser&password=testpass1234"
 # Save the token from response
 export TOKEN="your_access_token_here"
 ```
@@ -398,9 +397,7 @@ curl -X DELETE http://localhost:8000/tasks/1 \
   -H "Authorization: Bearer $TOKEN"
 ```
 
----
-
-## 🛠️ Error Response Format
+##  Error Response Format
 
 All errors follow this format:
 
@@ -441,7 +438,7 @@ All errors follow this format:
 
 ---
 
-## 📝 Data Models
+##  Data Models
 
 ### User
 ```typescript
@@ -459,7 +456,7 @@ All errors follow this format:
   title: string;          // max 200 chars
   description: string | null;
   status: "pending" | "in_progress" | "completed";
-  due_date: datetime;     // ISO 8601 format
+  due_date: datetime;    
   user_id: number;
   created_at: datetime;
 }
@@ -467,7 +464,7 @@ All errors follow this format:
 
 ---
 
-## 🔐 Security Notes
+##  Security Notes
 
 - Passwords are hashed using bcrypt
 - JWT tokens expire after 30 minutes
@@ -477,7 +474,7 @@ All errors follow this format:
 
 ---
 
-## 🌐 CORS Configuration
+##  CORS Configuration
 
 Currently configured to allow all origins for development:
 
@@ -488,26 +485,19 @@ allow_origins=["*"]
 **For production**, restrict to your frontend domain:
 
 ```python
-allow_origins=["https://yourdomain.com"]
+allow_origins=["*"]
 ```
 
 ---
 
-## 📦 Requirements
+## Requirements
 
-```txt
-fastapi==0.104.1
-uvicorn==0.24.0
-sqlalchemy==2.0.23
-pydantic==2.5.0
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-python-multipart==0.0.6
+see Requirements.txt
 ```
 
 ---
 
-## 🤝 Support
+##  Support
 
 For issues or questions:
 - Email: support@taskmanager.com
@@ -515,7 +505,7 @@ For issues or questions:
 
 ---
 
-## 📄 License
+## License
 
 MIT License - See LICENSE file for details
 

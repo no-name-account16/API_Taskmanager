@@ -121,14 +121,14 @@ textarea {
 .tasks-container {
     grid-area: tasks;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
 }
 
 .task-card {
     background: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .task-title {
@@ -180,8 +180,9 @@ textarea {
 .empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 40px;
-    color: white;
+     font-size: 2.0rem;
+    padding: 100px;
+    color: black;
 }
 
 .message {
