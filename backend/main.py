@@ -18,7 +18,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# CORS Configuration - Fixed for credentials
+# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

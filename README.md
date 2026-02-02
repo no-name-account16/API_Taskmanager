@@ -1,10 +1,13 @@
 Ministry of Justice Task manager Project
 
+
 # Task Manager API Documentation
 
+Note: I first wrote this readme.md then used copilot and chatgpt to see if it could improve on the explanation.
+.--- Still work on this section to correct the AI
 A RESTful API for managing tasks with user authentication built with FastAPI.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.10+
@@ -29,7 +32,7 @@ Once the server is running, you can access:
 - **OpenAPI Schema**: http://localhost:8000/openapi.json
 - **Document In PDF format is in directory
 
-## 📚 API Endpoints
+## API Endpoints
 
 ### Base URL
 ```
