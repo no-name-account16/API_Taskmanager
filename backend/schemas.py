@@ -23,7 +23,7 @@ class UserCreate(UserBase):
     @classmethod
     def validate_password(cls, v):
         if len(v.encode('utf-8')) > 72:
-            raise ValueError('Password is too long (max 72 bytes)')
+            raise ValueError('Password is too long ')
         if len(v) < 6:
             raise ValueError('Password must be at least 6 characters')
         return v

@@ -1,6 +1,6 @@
 """
 Quick script to see what the registration error actually says
-Save as quick_debug.py and run: python quick_debug.py
+change the username and password   + email if user exits  
 """
 from fastapi.testclient import TestClient
 from main import app

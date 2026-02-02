@@ -62,7 +62,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     # Bcrypt has a 72 byte limit
-    # We need to pass bytes directly to bcrypt
+
     import bcrypt
     password_bytes = password.encode('utf-8')[:72]
     salt = bcrypt.gensalt()

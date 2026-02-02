@@ -3,9 +3,6 @@ Ministry of Justice Task manager Project
 
 # Task Manager API Documentation
 
-Note: I first wrote this readme.md then used copilot and chatgpt to see if it could improve on the explanation.
-.--- Still work on this section to correct the AI
-A RESTful API for managing tasks with user authentication built with FastAPI.
 
 ## Quick Start
 
@@ -354,50 +351,68 @@ curl -X GET http://localhost:8000/tasks \
 
 ---
 
-##  Testing with cURL
+##  Testing 
 
-### Register and Login
+### Register and Login using powershell 
 ```bash
 # Register
-curl -X POST http://localhost:8000/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"testuser","password":"testpass123"}'
+$body = @{
+    username = "testpaul"
+    email = "testpaul@example.com"
+    password = "password"
+} | ConvertTo-Json
 
-# Login
+Invoke-RestMethod -Uri "http://localhost:8000/register"  \
+                       -Method Post -ContentType "application/json" -Body $body
 
-curl -X POST http://localhost:8000/token \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "username=testuser&password=testpass1234"
-# Save the token from response
-export TOKEN="your_access_token_here"
-```
 
-### Task Operations
-```bash
-# Create a task
-curl -X POST http://localhost:8000/tasks \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title":"Test Task",
-    "description":"This is a test",
-    "status":"pending",
-    "due_date":"2024-12-31T23:59:00"
-  }'
+Result: 
+        username email                id
+        -------- -----                --
+        testpaul testpaul@example.com  7
 
-# Get all tasks
-curl -X GET http://localhost:8000/tasks \
-  -H "Authorization: Bearer $TOKEN"
+--------------------------------------------------------
 
-# Update task status
-curl -X PATCH http://localhost:8000/tasks/1/status \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"status":"completed"}'
+Login
 
-# Delete a task
-curl -X DELETE http://localhost:8000/tasks/1 \
-  -H "Authorization: Bearer $TOKEN"
+$loginBody = "grant_type=password&username=testpaul&password=password"
+$response = Invoke-RestMethod -Uri "http://localhost:8000/login" `
+    -Method Post `
+    -ContentType "application/x-www-form-urlencoded" `
+    -Body $loginBody
+
+$TOKEN = $response.access_token
+Write-Host "Logged in successfully!" -ForegroundColor Green
+Write-Host "Token: $TOKEN`n" -ForegroundColor Cyan
+
+Get all tasks
+$tasks = Invoke-RestMethod -Uri "http://localhost:8000/tasks" `
+    -Method Get `
+    -Headers @{ Authorization = "Bearer $TOKEN" }
+
+Write-Host "Retrieved $($tasks.Count) tasks" -ForegroundColor Green
+$tasks | Format-Table
+
+Create a task
+$taskBody = @{
+    title = "New Task from PowerShell"
+    description = "Created via API"
+    status = "pending"
+    due_date = "2024-12-31T23:59:59"
+} | ConvertTo-Json
+
+$newTask = Invoke-RestMethod -Uri "http://localhost:8000/tasks" `
+    -Method Post `
+    -Headers @{ Authorization = "Bearer $TOKEN" } `
+    -ContentType "application/json" `
+    -Body $taskBody
+
+Write-Host "Task created with ID: $($newTask.id)" -ForegroundColor Green
+
+Result:
+
+Task created with ID: 7
+
 ```
 
 ##  Error Response Format
