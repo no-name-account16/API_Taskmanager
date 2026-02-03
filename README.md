@@ -21,6 +21,7 @@ pip install -r requirements.txt
 # or
 # cd backend
 python -m uvicorn main:app --reload
+follow the onscreen infomation
 ```
 
 ### Access Documentation
