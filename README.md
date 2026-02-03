@@ -17,11 +17,12 @@ Ministry of Justice Task manager Project
 # Install dependencies
 pip install -r requirements.txt
 # Run the application
-# from the root directory type .\run.bat
+# from the root directory 
+.\run.bat
 # or
-# cd backend
+cd backend
 python -m uvicorn main:app --reload
-follow the onscreen infomation
+follow the onscreen infomation to navigate to the main webpage
 ```
 
 ### Access Documentation
