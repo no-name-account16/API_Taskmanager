@@ -18,7 +18,6 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-
     @field_validator('password')
     @classmethod
     def validate_password(cls, v):
@@ -59,6 +58,12 @@ class TaskBase(BaseModel):
 class TaskCreate(TaskBase):
     pass
 
+
+class TaskUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[StatusEnum] = None
+    due_date: Optional[datetime] = None
 
 class TaskUpdateStatus(BaseModel):
     status: StatusEnum

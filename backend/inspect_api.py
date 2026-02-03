@@ -7,14 +7,15 @@ from main import app
 import json
 
 client = TestClient(app)
+passed = True
 
 print("=" * 80)
-print("INSPECTING YOUR FASTAPI APPLICATION")
+print("\033[92m INSPECTING THE FASTAPI APPLICATION\033[0m")
 print("=" * 80)
 print()
 
 # Get OpenAPI schema
-print("📋 Fetching OpenAPI Schema...")
+print(" \033[92m Fetching OpenAPI Schema...\033[0m")
 openapi_response = client.get("/openapi.json")
 
 if openapi_response.status_code == 200:
@@ -22,7 +23,7 @@ if openapi_response.status_code == 200:
 
     # 1. Show all available endpoints
     print("\n" + "=" * 80)
-    print("📍 AVAILABLE ENDPOINTS")
+    print("\033[95m AVAILABLE ENDPOINTS\033[0m")
     print("=" * 80)
     if "paths" in openapi:
         for path, methods in openapi["paths"].items():
@@ -33,14 +34,14 @@ if openapi_response.status_code == 200:
 
     # 2. Show UserCreate schema if it exists
     print("\n" + "=" * 80)
-    print("👤 USER SCHEMAS")
+    print("\033[95m USER SCHEMAS\033[0m")
     print("=" * 80)
     if "components" in openapi and "schemas" in openapi["components"]:
         schemas = openapi["components"]["schemas"]
 
         for schema_name in schemas.keys():
             if "user" in schema_name.lower() or "User" in schema_name:
-                print(f"\n  📦 {schema_name}:")
+                print(f"\n    {schema_name}:")
                 schema = schemas[schema_name]
                 if "properties" in schema:
                     print("     Properties:")
@@ -53,7 +54,7 @@ if openapi_response.status_code == 200:
 
     # 3. Show /register endpoint details
     print("\n" + "=" * 80)
-    print("🔐 REGISTER ENDPOINT DETAILS")
+    print("\033[92m REGISTER ENDPOINT DETAILS\033[0m")
     print("=" * 80)
     if "paths" in openapi and "/register" in openapi["paths"]:
         register_def = openapi["paths"]["/register"]
@@ -73,14 +74,14 @@ if openapi_response.status_code == 200:
 
     # 4. Show Task schemas
     print("\n" + "=" * 80)
-    print("📝 TASK SCHEMAS")
+    print("\033[94m TASK SCHEMAS\033[0m")
     print("=" * 80)
     if "components" in openapi and "schemas" in openapi["components"]:
         schemas = openapi["components"]["schemas"]
 
         for schema_name in schemas.keys():
             if "task" in schema_name.lower() or "Task" in schema_name:
-                print(f"\n  📦 {schema_name}:")
+                print(f"\n    {schema_name}:")
                 schema = schemas[schema_name]
                 if "properties" in schema:
                     print("     Properties:")
@@ -90,11 +91,11 @@ if openapi_response.status_code == 200:
                         print(f"       - {prop_name}: {prop_type}{required}")
 
 else:
-    print(f"❌ Could not fetch OpenAPI schema. Status: {openapi_response.status_code}")
+    print(f"Could not fetch OpenAPI schema. Status: {openapi_response.status_code}")
 
 # Test actual registration
 print("\n" + "=" * 80)
-print("🧪 TESTING REGISTRATION")
+print("\033[92m TESTING REGISTRATION\033[0m")
 print("=" * 80)
 
 test_cases = [
@@ -109,12 +110,12 @@ for test_name, payload in test_cases:
     response = client.post("/register", json=payload)
     print(f"  Status: {response.status_code}")
     if response.status_code in [200, 201]:
-        print(f"  ✅ SUCCESS")
+        print(f"\033[92m SUCCESS\033[0m")
         print(f"  Response: {json.dumps(response.json(), indent=4)}")
     else:
-        print(f"  ❌ FAILED")
+        print(f"\033[91m FAILED\033[0m")
         print(f"  Response: {json.dumps(response.json(), indent=4)}")
 
 print("\n" + "=" * 80)
-print("✅ INSPECTION COMPLETE")
+print("INSPECTION COMPLETE")
 print("=" * 80)

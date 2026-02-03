@@ -1,23 +1,21 @@
 """
 Diagnostic script to find import issues
 Run this: python diagnose.py
-"""
 
-"""
 If there are any problems with the code - run the diagnose.py and the result should show like below
 
-✓ database.py - OK
-✓ models.py - OK
-✓ schemas.py - OK
-✓ authentication.py - OK
-✓ db_interaction.py - OK
+  database.py - OK
+  models.py - OK
+  schemas.py - OK
+  authentication.py - OK
+  db_interaction.py - OK
 
 ============================================================
 TESTING MAIN.PY IMPORT
 ============================================================
-✓ main.py imported successfully!
+main.py imported successfully!
 
-✅ Your server should work! Run:
+   Your server should work! Run:
    python -m uvicorn main:app --reload
 
 """
@@ -34,7 +32,7 @@ print(f"Current Directory: {os.getcwd()}")
 print(f"\nPython Files in current directory:")
 for f in sorted(os.listdir('.')):
     if f.endswith('.py'):
-        print(f"  ✓ {f}")
+        print(f"   {f}")
 
 print("\n" + "=" * 60)
 print("TESTING PACKAGE IMPORTS")
@@ -55,9 +53,9 @@ failed_packages = []
 for module, install_cmd in packages_to_test:
     try:
         __import__(module)
-        print(f"✓ {module:20s} - INSTALLED")
+        print(f"{module:20s} - INSTALLED")
     except ImportError:
-        print(f"✗ {module:20s} - MISSING")
+        print(f"{module:20s} - MISSING")
         failed_packages.append(install_cmd)
 
 print("\n" + "=" * 60)
@@ -69,9 +67,9 @@ local_modules = ['database', 'models', 'schemas', 'authentication', 'db_interact
 for module in local_modules:
     try:
         __import__(module)
-        print(f"✓ {module}.py - OK")
+        print(f"{module}.py - OK")
     except Exception as e:
-        print(f"✗ {module}.py - ERROR: {e}")
+        print(f"{module}.py - ERROR: {e}")
 
 print("\n" + "=" * 60)
 print("TESTING MAIN.PY IMPORT")
@@ -79,11 +77,11 @@ print("=" * 60)
 
 try:
     import main
-    print("✓ main.py imported successfully!")
-    print("\n✅ Your server should work! Run:")
+    print("main.py imported successfully!")
+    print("\nYour server should work! Run:")
     print("   python -m uvicorn main:app --reload")
 except Exception as e:
-    print(f"✗ main.py import FAILED!")
+    print(f"main.py import FAILED!")
     print(f"\nError: {e}")
     print(f"\nFull traceback:")
     import traceback
@@ -91,7 +89,7 @@ except Exception as e:
 
 if failed_packages:
     print("\n" + "=" * 60)
-    print("⚠️  MISSING PACKAGES - RUN THIS:")
+    print("MISSING PACKAGES - RUN THIS:")
     print("=" * 60)
     for cmd in failed_packages:
         print(f"  {cmd}")

@@ -19,7 +19,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 def get_db():
-    """Get database session"""
+    #  Get database session
     db = SessionLocal()
     try:
         yield db
@@ -28,20 +28,20 @@ def get_db():
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify a password against its hash"""
+    #  Verify a password against its hash
     return pwd_context.verify(plain_password, hashed_password)
 
 
 def get_password_hash(password: str) -> str:
-    """Hash a password (truncate to 72 bytes for bcrypt)"""
-    # Bcrypt has a 72 byte limit
+    #  Hash a password (truncate to 72 bytes for bcrypt)
+    #  Bcrypt has a 72 byte limit
     password_bytes = password.encode('utf-8')[:72]
     truncated_password = password_bytes.decode('utf-8', errors='ignore')
     return pwd_context.hash(truncated_password)
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """Create a JWT access token"""
+    #  Create a JWT access token
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -53,17 +53,17 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 
 
 def get_user_by_username(db: Session, username: str) -> Optional[User]:
-    """Get user by username"""
+    # Get user by username
     return db.query(User).filter(User.username == username).first()
 
 
 def get_user_by_email(db: Session, email: str) -> Optional[User]:
-    """Get user by email"""
+    #  Get user by email
     return db.query(User).filter(User.email == email).first()
 
 
 def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
-    """Authenticate a user"""
+    #  Authenticate a user
     user = get_user_by_username(db, username)
     if not user:
         return None
@@ -73,7 +73,7 @@ def authenticate_user(db: Session, username: str, password: str) -> Optional[Use
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
-    """Get current authenticated user from token"""
+    #  Get current authenticated user from token
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -92,3 +92,4 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     if user is None:
         raise credentials_exception
     return user
+

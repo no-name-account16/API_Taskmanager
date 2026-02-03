@@ -368,8 +368,7 @@ def test_cors_configuration():
 
 
 def test_cors_with_actual_request(test_user):
-    """Test CORS headers on actual requests"""
-    # FIXED: Changed from /token to /login
+    #  Test CORS headers on actual requests
     login_response = client.post(
         "/login",
         data={
@@ -393,7 +392,7 @@ def test_cors_with_actual_request(test_user):
 
 
 def test_cors_disallowed_origin():
-    """Test that disallowed origins don't get CORS headers"""
+    #  Test that disallowed origins don't get CORS headers
     disallowed_origin = "http://malicious-site.com"
 
     response = client.options(
@@ -410,7 +409,7 @@ def test_cors_disallowed_origin():
 
 
 def test_cors_allowed_methods():
-    """Test that all configured HTTP methods are allowed"""
+    # Test that all configured HTTP methods are allowed
     origin = "http://localhost:63342"
 
     response = client.options(
@@ -428,7 +427,7 @@ def test_cors_allowed_methods():
 
 
 def test_cors_credentials_support():
-    """Test that credentials are properly supported"""
+    # Test that credentials are properly supported
     origin = "http://localhost:63342"
 
     response = client.options(
@@ -444,7 +443,7 @@ def test_cors_credentials_support():
 
 
 def test_cors_exposed_headers():
-    """Test that headers are properly exposed"""
+    #  Test that headers are properly exposed
     origin = "http://localhost:63342"
 
     response = client.options(
@@ -463,7 +462,7 @@ def test_cors_exposed_headers():
 # ============================================
 
 def test_cors_preflight_all_origins():
-    """Test that each allowed origin works independently"""
+    # test that each allowed origin works independently
     allowed_origins = [
         "http://localhost:63342",
         "http://127.0.0.1:63342",
@@ -486,7 +485,7 @@ def test_cors_preflight_all_origins():
 
 
 def test_cors_multiple_headers():
-    """Test that multiple request headers are allowed"""
+    # Test that multiple request headers are allowed
     origin = "http://localhost:63342"
 
     response = client.options(

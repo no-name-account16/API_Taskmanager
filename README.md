@@ -16,9 +16,10 @@ Ministry of Justice Task manager Project
 ```bash
 # Install dependencies
 pip install -r requirements.txt
-
 # Run the application
-cd backend
+# from the root directory type .\run.bat
+# or
+# cd backend
 python -m uvicorn main:app --reload
 ```
 
@@ -385,6 +386,10 @@ $TOKEN = $response.access_token
 Write-Host "Logged in successfully!" -ForegroundColor Green
 Write-Host "Token: $TOKEN`n" -ForegroundColor Cyan
 
+Result:
+Logged in successfully!
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0cGF1bCIsImV4cCI6MTc3MDEwOTI4N30.xrNsRk0Y03biQNOVpBDKd5XkKXQKoc1Iyn-JUgb4Ttw
+
 Get all tasks
 $tasks = Invoke-RestMethod -Uri "http://localhost:8000/tasks" `
     -Method Get `
@@ -393,6 +398,13 @@ $tasks = Invoke-RestMethod -Uri "http://localhost:8000/tasks" `
 Write-Host "Retrieved $($tasks.Count) tasks" -ForegroundColor Green
 $tasks | Format-Table
 
+Result:
+
+title                    description     status  due_date            id user_id
+-----                    -----------     ------  --------            -- -------
+New Task from PowerShell Created via API pending 2024-12-31T23:59:59  7       7
+
+------------------------------------------------------------------------------------
 Create a task
 $taskBody = @{
     title = "New Task from PowerShell"
@@ -410,7 +422,6 @@ $newTask = Invoke-RestMethod -Uri "http://localhost:8000/tasks" `
 Write-Host "Task created with ID: $($newTask.id)" -ForegroundColor Green
 
 Result:
-
 Task created with ID: 7
 
 ```
@@ -487,44 +498,15 @@ All errors follow this format:
 - Passwords are hashed using bcrypt
 - JWT tokens expire after 30 minutes
 - Each user can only access their own tasks
-- CORS is enabled for development (configure for production)
+- CORS is enabled for development
 - Use HTTPS in production environments
 
 ---
 
-##  CORS Configuration
-
-Currently configured to allow all origins for development:
-
-```python
-allow_origins=["*"]
-```
-
-**For production**, restrict to your frontend domain:
-
-```python
-allow_origins=["*"]
-```
-
----
 
 ## Requirements
 
 see Requirements.txt
 ```
-
----
-
-##  Support
-
-For issues or questions:
-- Email: support@taskmanager.com
-- Documentation: http://localhost:8000/docs
-
----
-
-## License
-
-MIT License - See LICENSE file for details
 
 
