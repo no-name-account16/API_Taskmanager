@@ -11,16 +11,16 @@ from threading import Timer
 def open_browser():
     """Open browser after a short delay"""
     time.sleep(2)  # Wait 2 seconds for server to start
-    webbrowser.open('http://localhost:5000')
+    webbrowser.open('http://localhost:8000')
 
 
 if __name__ == '__main__':
     print("=" * 70)
-    print("🚀 Starting Task Manager Application")
+    print("  Starting Task Manager Application")
     print("=" * 70)
     print()
-    print("📍 Application URL: http://localhost:5000")
-    print("📚 API Documentation: http://localhost:5000/docs")
+    print("  Application URL: http://localhost:5000")
+    print("  API Documentation: http://localhost:5000/docs")
     print()
     print("Press CTRL+C to stop the server")
     print("=" * 70)
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     uvicorn.run(
         "main:app",
         host="127.0.0.1",
-        port=5000,
+        port=8000,
         reload=True,
         log_level="info"
     )
