@@ -33,7 +33,13 @@ Once the server is running, you can access:
 - **Document In PDF format is in directory
 
 ## API Endpoints
-
+  - /register
+  - /login
+  - /users/me
+  - /tasks
+  - /tasks/{task_id}
+  - /tasks/{task_id}/status
+  - 
 ### Base URL
 ```
 http://localhost:8000

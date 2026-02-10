@@ -25,7 +25,7 @@ import sys
 import os
 
 print("=" * 60)
-print("DIAGNOSTIC REPORT")
+print("\033[92mDIAGNOSTIC REPORT\033[0m")
 print("=" * 60)
 print(f"\nPython Version: {sys.version}")
 print(f"Current Directory: {os.getcwd()}")
@@ -35,7 +35,7 @@ for f in sorted(os.listdir('.')):
         print(f"   {f}")
 
 print("\n" + "=" * 60)
-print("TESTING PACKAGE IMPORTS")
+print("\033[92mTESTING PACKAGE IMPORTS\033[0m")
 print("=" * 60)
 
 # Test each package individually
@@ -53,13 +53,13 @@ failed_packages = []
 for module, install_cmd in packages_to_test:
     try:
         __import__(module)
-        print(f"{module:20s} - INSTALLED")
+        print(f"{module:20s} - \033[92mINSTALLED\033[0m")
     except ImportError:
-        print(f"{module:20s} - MISSING")
+        print(f"{module:20s} - \033[91mMISSING\033[0m")
         failed_packages.append(install_cmd)
 
 print("\n" + "=" * 60)
-print("TESTING LOCAL MODULE IMPORTS")
+print("\033[92mTESTING LOCAL MODULE IMPORTS\033[0m")
 print("=" * 60)
 
 local_modules = ['database', 'models', 'schemas', 'authentication', 'db_interaction']
@@ -77,11 +77,11 @@ print("=" * 60)
 
 try:
     import main
-    print("main.py imported successfully!")
+    print("\033[43m main.py imported successfully!\033[0m")
     print("\nYour server should work! Run:")
     print("   python -m uvicorn main:app --reload")
 except Exception as e:
-    print(f"main.py import FAILED!")
+    print(f"\033[91m main.py import FAILED!\033[0m")
     print(f"\nError: {e}")
     print(f"\nFull traceback:")
     import traceback

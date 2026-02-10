@@ -9,12 +9,12 @@ import json
 client = TestClient(app)
 
 print("=" * 80)
-print("DEBUGGING REGISTRATION ENDPOINT")
+print("\033[92mDEBUGGING REGISTRATION ENDPOINT\033[0m")
 print("=" * 80)
 print()
 
 # Test 1: Current format
-print("Test 1: Current format (username + password)")
+print("\033[93mTest 1: Current format (username + password)\033[0m")
 print("-" * 80)
 response = client.post(
     "/register",
@@ -29,7 +29,7 @@ print(json.dumps(response.json(), indent=2))
 print()
 
 # Test 2: With email
-print("Test 2: With email field")
+print("\033[93mTest 2: With email field\033[0m")
 print("-" * 80)
 response = client.post(
     "/register",
@@ -45,7 +45,7 @@ print(json.dumps(response.json(), indent=2))
 print()
 
 # Test 3: Check if endpoint exists
-print("Test 3: Checking available routes")
+print("\033[93mTest 3: Checking available routes\033[0m")
 print("-" * 80)
 openapi = client.get("/openapi.json")
 if openapi.status_code == 200:
@@ -62,7 +62,7 @@ if openapi.status_code == 200:
             request_body = register_info["post"].get("requestBody", {})
             print(json.dumps(request_body, indent=2))
 else:
-    print("Could not fetch OpenAPI schema")
+    print("\033[92mCould not fetch OpenAPI schema\033[0m")
 
 print()
 print("=" * 80)
