@@ -72,14 +72,14 @@ for module in local_modules:
         print(f"{module}.py - ERROR: {e}")
 
 print("\n" + "=" * 60)
-print("TESTING MAIN.PY IMPORT")
+print("\033[92mTESTING MAIN.PY IMPORT\033[0m")
 print("=" * 60)
 
 try:
     import main
     print("\033[43m main.py imported successfully!\033[0m")
     print("\nYour server should work! Run:")
-    print("   python -m uvicorn main:app --reload")
+    print(" \033[92m  python -m uvicorn main:app --reload\033[0m")
 except Exception as e:
     print(f"\033[91m main.py import FAILED!\033[0m")
     print(f"\nError: {e}")
@@ -89,12 +89,12 @@ except Exception as e:
 
 if failed_packages:
     print("\n" + "=" * 60)
-    print("MISSING PACKAGES - RUN THIS:")
+    print("\033[91mMISSING PACKAGES - RUN THIS:\033[0m")
     print("=" * 60)
     for cmd in failed_packages:
         print(f"  {cmd}")
     print("\nOr install all at once:")
-    print('  pip install fastapi uvicorn sqlalchemy pydantic "python-jose[cryptography]" "passlib[bcrypt]" python-multipart email-validator')
+    print(' pip install fastapi uvicorn sqlalchemy pydantic "python-jose[cryptography]" "passlib[bcrypt]" python-multipart email-validator ')
 
 print("\n" + "=" * 60)
 
